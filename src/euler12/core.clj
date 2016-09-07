@@ -17,9 +17,12 @@
                           2 6 6 4 2 4 6 2 6 4 2 4 2 10 2 10])]
         (primes-from 11 wheel)))))
 
-(defn int-sqrt [n] (math/floor (math/sqrt n)))
+(defn int-sqrt
+  [n]
+  (math/floor (math/sqrt n)))
 
-(defn update-powers [num powers]
+(defn update-powers
+  [num powers]
   (if (contains? powers num)
     (update-in powers [num] inc)
     (assoc powers num 1)))
@@ -34,7 +37,8 @@
           (recur n (nth primes i) (inc i) decomposition))
         (update-powers n decomposition)))))
 
-(defn count-divisors [decomposition]
+(defn count-divisors
+  [decomposition]
   (reduce * 1 (map inc (vals decomposition))))
 
 (defn generate-triangle-nums
@@ -43,15 +47,21 @@
 
 (def triangle-nums (generate-triangle-nums 1 2))
 
-(defn num-divisors [n] (->> n factorize count-divisors))
+(defn num-divisors
+  [n]
+  (->> n
+       factorize
+       count-divisors))
 
 (defn calc-euler-12
   [max-num]
-  (first (filter #(< max-num (num-divisors %)) triangle-nums)))
+  (->>
+    triangle-nums
+    (filter #(< max-num (num-divisors %)))
+    first))
 
 (defn -main
   "Euler12"
   [& args]
-  (do (println args)
-  (println (calc-euler-12 (first args)))))
+  (println (calc-euler-12 (first args))))
 
